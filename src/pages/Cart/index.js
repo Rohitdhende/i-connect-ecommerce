@@ -3,8 +3,10 @@ import { Container, Box, Button, IconButton, Typography } from "@mui/material";
 import { getCart, getCartCount, getTotalPrice } from "../../methods";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
+import { useNavigate } from "react-router-dom";
 
 const Cart = (props) => {
+  const navigate = useNavigate();
   const [subTotal, setSubTotal] = useState(0);
   const [render, renderComponent] = useState(false);
 
@@ -65,30 +67,53 @@ const Cart = (props) => {
             fontWeight={600}
             sx={{
               position: "sticky",
-              top: '3.5rem',
+              top: "3.5rem",
               backgroundColor: "white",
               boxShadow: "0px 15px 10px -15px #111",
-              width:'100%',
-              display:'flex',
-              justifyContent:'center',
-              zIndex:1111,
-              padding:'1rem 0',
-              gap:1
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              zIndex: 1111,
+              padding: "1rem 0",
+              gap: 1,
             }}
           >
             You have to pay <span style={{ color: "green" }}> ₹{subTotal}</span>
           </Typography>
         )}
-        <Container sx={{ width: "90%", }}>
+        <Container sx={{ width: "90%" }}>
           {props.cart?.length === 0 && (
             <Box
               sx={(theme) => ({
                 textAlign: "center",
                 paddingY: "1rem",
                 borderRadius: "1rem",
+                display: "flex",
+                flexDirection: {
+                  xs: "column",
+                  sm: "row",
+                  md: "row",
+                  lg: "row",
+                  xl: "row",
+                },
+                justifyContent: "center",
+                gap: 1,
               })}
             >
-              Your iConnect Shop Cart is empty
+              Your iConnect Shop Cart is empty,
+              <Typography
+                fontWeight={400}
+                onClick={() => navigate("/")}
+                sx={{
+                  cursor: "pointer",
+                  "&:hover": {
+                    color: "green",
+                  },
+                }}
+              >
+                {" "}
+                Let's Shop?
+              </Typography>
             </Box>
           )}
           {props.cart.length > 0 && (
@@ -277,9 +302,11 @@ const Cart = (props) => {
             </>
           )}
         </Container>
-        <Button variant="outlined" color="success">
-          Proceed to Pay
-        </Button>
+        {props.cart?.length > 0 && (
+          <Button variant="outlined" color="success">
+            Proceed to Pay
+          </Button>
+        )}
       </div>
     </div>
   );
